@@ -1,0 +1,109 @@
+-- Creating the Users table
+CREATE TABLE Users (
+User_id INT PRIMARY KEY,
+user_name VARCHAR(255),
+user_email_id VARCHAR(255),
+user_address VARCHAR(255),
+user_mobile VARCHAR(20)
+);
+-- Inserting sample data into Users table
+INSERT INTO Users (User_id, user_name, user_email_id, user_address, user_mobile)
+VALUES
+(1, 'Alice', 'alice@example.com', '123 Wonderland', '123-456-7890'),
+(2, 'Bob', 'bob@example.com', '456 Nowhere St', '098-765-4321'),
+(3, 'Charlie', 'charlie@example.com', '789 Unknown Rd', '555-555-5555');
+-- Creating the Login table
+CREATE TABLE Login (
+Login_id INT PRIMARY KEY,
+Login_username VARCHAR(255),
+Login_password VARCHAR(255),
+User_id INT,
+FOREIGN KEY (User_id) REFERENCES Users(User_id)
+);
+-- Inserting sample data into Login table
+INSERT INTO Login (Login_id, Login_username, Login_password, User_id)
+VALUES
+(1, 'alice_login', 'password1', 1),
+(2, 'bob_login', 'password2', 2),
+(3, 'charlie_login', 'password3', 3);
+-- Creating the Permission table
+CREATE TABLE Permission (
+perm_id INT PRIMARY KEY,
+perm_name VARCHAR(255),
+User_id INT,
+FOREIGN KEY (User_id) REFERENCES Users(User_id)
+);
+-- Inserting sample data into Permission table
+INSERT INTO Permission (perm_id, perm_name, User_id)
+VALUES
+(1, 'admin', 1),
+(2, 'user', 2),
+(3, 'guest', 3);
+-- Creating the Friends table
+CREATE TABLE Friends (
+Friends_id INT PRIMARY KEY,
+Friends_username VARCHAR(255),
+Friends_email_id VARCHAR(255),
+Friends_address VARCHAR(255),
+Login_id INT,
+FOREIGN KEY (Login_id) REFERENCES Login(Login_id)
+);
+-- Inserting sample data into Friends table
+INSERT INTO Friends (Friends_id, Friends_username, Friends_email_id,
+Friends_address, Login_id)
+VALUES
+(1, 'david', 'david@example.com', '101 Binary Ln', 1),
+(2, 'eve', 'eve@example.com', '202 Quantum St', 2),
+(3, 'frank', 'frank@example.com', '303 Algorithm Ave', 3);
+-- Creating the Photos table
+CREATE TABLE Photos (
+Photo_id INT PRIMARY KEY,
+Photo_name VARCHAR(255),
+Photo_size INT,
+Photo_date DATE,
+perm_id INT,
+FOREIGN KEY (perm_id) REFERENCES Permission(perm_id)
+);
+-- Inserting sample data into Photos table
+INSERT INTO Photos (Photo_id, Photo_name, Photo_size, Photo_date, perm_id)
+VALUES
+(1, 'beach.jpg', 2048, '2023-01-01', 1),
+(2, 'mountain.png', 1024, '2023-02-01', 2),
+(3, 'city.bmp', 512, '2023-03-01', 3);
+-- Creating the Post table
+CREATE TABLE Post (
+Post_id INT PRIMARY KEY,
+Post_type VARCHAR(255),
+Post_address VARCHAR(255),
+User_id INT,
+FOREIGN KEY (User_id) REFERENCES Users(User_id)
+);
+-- Inserting sample data into Post table
+INSERT INTO Post (Post_id, Post_type, Post_address, User_id)
+VALUES
+(1, 'text', 'This is a text post', 1),
+(2, 'image', 'This is an image post', 2),
+(3, 'video', 'This is a video post', 3);
+-- Creating the Shares table
+CREATE TABLE Shares (
+Share_id INT PRIMARY KEY,
+Share_type VARCHAR(255),
+Share_name VARCHAR(255),
+no_of_shares INT,
+Post_id INT,
+FOREIGN KEY (Post_id) REFERENCES Post(Post_id)
+);
+-- Inserting sample data into Shares table
+INSERT INTO Shares (Share_id, Share_type, Share_name, no_of_shares, Post_id)
+VALUES
+(1, 'public', 'Public Share', 10, 1),
+(2, 'private', 'Private Share', 5, 2),
+(3, 'friends', 'Friends Only Share', 2, 3);
+-- Verifying the inserts
+SELECT * FROM Users;
+SELECT * FROM Login;
+SELECT * FROM Permission;
+SELECT * FROM Friends;
+SELECT * FROM Photos;
+SELECT * FROM Post;
+SELECT * FROM Shares;
